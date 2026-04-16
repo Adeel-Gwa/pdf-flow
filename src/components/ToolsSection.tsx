@@ -2,8 +2,10 @@ import { useState } from "react";
 import {
   Layers, Scissors, FileDown, Minimize2, FileText, Image, FileOutput,
   Type, Lock, Unlock, Stamp, RotateCcw, FileSearch, BookOpen,
-  Languages, Brain, Sparkles, ScanSearch, Search, Upload
+  Languages, Brain, Sparkles, ScanSearch, Search
 } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
+import FileUploadZone from "@/components/FileUploadZone";
 
 type Tool = { name: string; desc: string; icon: React.ElementType; color: string };
 
@@ -100,15 +102,17 @@ const ToolsSection = () => {
   return (
     <section id="tools" className="section-padding relative">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-14 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-bold">
-            Powerful <span className="gradient-text">PDF Tools</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to work with PDFs, all in one place. No
-            installation, no registration.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="text-center mb-14 space-y-4">
+            <h2 className="text-3xl sm:text-4xl font-bold">
+              Powerful <span className="gradient-text">PDF Tools</span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Everything you need to work with PDFs, all in one place. No
+              installation, no registration.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Search */}
         <div className="max-w-md mx-auto mb-8">
@@ -144,21 +148,19 @@ const ToolsSection = () => {
         {/* Tools grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {displayTools.map((tool, i) => (
-            <div
-              key={tool.name}
-              className="tool-card group"
-              style={{ animationDelay: `${i * 50}ms` }}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`p-2.5 rounded-lg bg-muted ${tool.color} transition-transform duration-300 group-hover:scale-110`}>
-                  <tool.icon size={20} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm mb-1">{tool.name}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{tool.desc}</p>
+            <ScrollReveal key={tool.name} delay={i * 60} direction="up">
+              <div className="tool-card group h-full">
+                <div className="flex items-start gap-4">
+                  <div className={`p-2.5 rounded-lg bg-muted ${tool.color} transition-transform duration-300 group-hover:scale-110`}>
+                    <tool.icon size={20} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm mb-1">{tool.name}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{tool.desc}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
@@ -166,14 +168,7 @@ const ToolsSection = () => {
           <p className="text-center text-muted-foreground py-12">No tools found matching your search.</p>
         )}
 
-        {/* Drag & Drop */}
-        <div className="mt-16 max-w-2xl mx-auto">
-          <div className="border-2 border-dashed border-primary/30 rounded-2xl p-12 text-center hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 cursor-pointer group">
-            <Upload size={40} className="mx-auto mb-4 text-primary/50 group-hover:text-primary transition-colors" />
-            <p className="font-semibold text-lg mb-1">Drag & Drop your files here</p>
-            <p className="text-sm text-muted-foreground">or click to browse — up to 100MB per file</p>
-          </div>
-        </div>
+        <FileUploadZone />
       </div>
     </section>
   );
